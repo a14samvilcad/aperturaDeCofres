@@ -258,13 +258,18 @@ public class GameScreen implements Screen {
 
             @Override
             public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+                if (menuVisible) {
 
-                Vector3 touchPos = new Vector3();
-                touchPos.set(screenX, screenY, 0);
-                camera.unproject(touchPos);
-                if (button == Input.Buttons.LEFT && botonSalirSprite.getBoundingRectangle().contains(touchPos.x, touchPos.y)) {
-                    game.setScreen(new MainMenuScreen(game));
+                    Vector3 touchPos = new Vector3();
+                    touchPos.set(screenX, screenY, 0);
+                    camera.unproject(touchPos);
+                    if (button == Input.Buttons.LEFT && botonSalirSprite.getBoundingRectangle().contains(touchPos.x, touchPos.y)) {
+                        game.setScreen(new MainMenuScreen(game));
+                    }
+
                 }
+
+
                 return false;
             }
 
