@@ -158,9 +158,19 @@ public class GameScreen implements Screen {
         score.setText("Puntuación: "+ Settings.SCORE);
         if(TimeUtils.nanoTime() - lastZombieTime > 2000000000) spawnZombie();
 
+        float cameraWidth = camera.viewportWidth;
+        float cameraHeight = camera.viewportHeight;
+        float buttonWidth = botonSalirSprite.getWidth();
+        float buttonHeight = botonSalirSprite.getHeight();
+
+        float x = camera.position.x - cameraWidth / 4 + buttonWidth / 2;
+        float y = camera.position.y - cameraHeight / 2 + buttonHeight / 2;
+
+        botonSalirSprite.setPosition(x+20, y+200);
+
         batch.begin();
         if (menuVisible) {
-            batch.draw(menuSprite, 465, 50);
+            batch.draw(menuSprite, x, y);
             botonSalirSprite.draw(batch);
         }
         batch.end();
@@ -218,6 +228,7 @@ public class GameScreen implements Screen {
                 return false;
             }
 
+
             @Override
             public boolean keyUp(int keycode) {
                 return false;
@@ -231,10 +242,12 @@ public class GameScreen implements Screen {
             @Override
             public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 
-                if (button == Input.Buttons.LEFT && botonSalirSprite.getBoundingRectangle().contains(screenX, screenY)) {
+                Vector3 touchPos = new Vector3();
+                touchPos.set(screenX, screenY, 0);
+                camera.unproject(touchPos);
+                if (button == Input.Buttons.LEFT && botonSalirSprite.getBoundingRectangle().contains(touchPos.x, touchPos.y)) {
                     game.setScreen(new MainMenuScreen(game));
                 }
-
                 return false;
             }
 
