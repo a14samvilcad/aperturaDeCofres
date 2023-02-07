@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -26,13 +27,16 @@ public class AssetManager {
     public static Texture soldierImage;
     public static Sound dropSound;
 
+    public static Texture menuImage;
+
+
     //Textures
     public static Texture PlayerSoldierRunRight;
     public static Texture PlayerSoldierRunLeft;
     public static Texture PlayerSoldierStatic;
     public static Texture Bala;
     public static Texture ZombieGhoulStatic;
-
+    public static Texture botonSalir;
 
 
 
@@ -53,6 +57,10 @@ public class AssetManager {
     public static void load() {
 
         ZombieGhoulStatic = new Texture(Gdx.files.internal("soldier.png"));
+
+        menuImage = new Texture(Gdx.files.internal("menu.png"));
+
+        botonSalir = new Texture(Gdx.files.internal("botonSalir.png"));
 
         //Load Map
         mapLoader = new TmxMapLoader();

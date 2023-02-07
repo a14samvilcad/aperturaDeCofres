@@ -2,13 +2,17 @@ package m08.uf3.drops.Screens;
 
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Cursor;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.MapProperties;
@@ -17,7 +21,9 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
@@ -42,6 +48,7 @@ public class GameScreen implements Screen {
     Label score;
     BitmapFont font;
 
+
     //Map
     private OrthographicCamera camera;
     private OrthogonalTiledMapRenderer tmr;
@@ -53,9 +60,19 @@ public class GameScreen implements Screen {
     private int mapWidthInTiles, mapHeightInTiles;
     private int mapWidthInPixels, mapHeightInPixels;
 
+    private boolean menuVisible = false;
+    private Texture menuSprite;
+    private Sprite botonSalirSprite;
+
     public GameScreen(Batch prevBatch, Viewport prevViewport, Drops game) {
 
         map = AssetManager.map;
+        menuSprite=AssetManager.menuImage;
+
+        botonSalirSprite= new Sprite(AssetManager.botonSalir);
+
+        botonSalirSprite.setPosition(490, 280);
+
 
         propiedadesMap = map.getProperties();
         tileWidth         = propiedadesMap.get("tilewidth", Integer.class);
@@ -141,6 +158,14 @@ public class GameScreen implements Screen {
         score.setText("Puntuación: "+ Settings.SCORE);
         if(TimeUtils.nanoTime() - lastZombieTime > 2000000000) spawnZombie();
 
+        batch.begin();
+        if (menuVisible) {
+            batch.draw(menuSprite, 465, 50);
+            botonSalirSprite.draw(batch);
+        }
+        batch.end();
+
+
 
         if(Settings.LIVES < 0){
             stage.dispose();
@@ -184,6 +209,56 @@ public class GameScreen implements Screen {
     @Override
     public void show() {
         AssetManager.load();
+        Gdx.input.setInputProcessor(new InputProcessor() {
+            @Override
+            public boolean keyDown(int keycode) {
+                if (keycode == Input.Keys.ESCAPE) {
+                    menuVisible = !menuVisible;
+                }
+                return false;
+            }
+
+            @Override
+            public boolean keyUp(int keycode) {
+                return false;
+            }
+
+            @Override
+            public boolean keyTyped(char character) {
+                return false;
+            }
+
+            @Override
+            public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+
+                if (button == Input.Buttons.LEFT && botonSalirSprite.getBoundingRectangle().contains(screenX, screenY)) {
+                    game.setScreen(new MainMenuScreen(game));
+                }
+
+                return false;
+            }
+
+            @Override
+            public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+                return false;
+            }
+
+            @Override
+            public boolean touchDragged(int screenX, int screenY, int pointer) {
+                return false;
+            }
+
+            @Override
+            public boolean mouseMoved(int screenX, int screenY) {
+                return false;
+            }
+
+            @Override
+            public boolean scrolled(float amountX, float amountY) {
+                return false;
+            }
+
+        });
 
 
     }
@@ -205,6 +280,8 @@ public class GameScreen implements Screen {
         AssetManager.dispose();
         tmr.dispose();
         map.dispose();
+        batch.dispose();
+        menuSprite.dispose();
     }
 
 }
