@@ -17,6 +17,8 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
+import org.w3c.dom.Text;
+
 public class AssetManager {
 
     //Map
@@ -38,6 +40,8 @@ public class AssetManager {
     public static Texture ZombieGhoulStatic;
     public static Texture botonSalir;
 
+    //Textures de Controller for android
+    public static Texture imageUp, imageDown, imageLeft, imageRight;
 
 
 
@@ -55,6 +59,11 @@ public class AssetManager {
 
     //Load textures
     public static void load() {
+
+        imageUp = new Texture("Flechitas/flatDark25.png");
+        imageDown = new Texture("Flechitas/flatDark26.png");
+        imageLeft = new Texture("Flechitas/flatDark23.png");
+        imageRight = new Texture("Flechitas/flatDark24.png");
 
         ZombieGhoulStatic = new Texture(Gdx.files.internal("soldier.png"));
 

@@ -5,12 +5,15 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g3d.particles.ParticleControllerComponent;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
+
+import m08.uf3.drops.Utils.Controller;
 import m08.uf3.drops.helper.AssetManager;
 import  m08.uf3.drops.Utils.Settings;
 
@@ -44,7 +47,10 @@ public class Player extends Actor {
     private TiledMapTileLayer mapTileLayer;
     private MapProperties propertiesMapa;
 
-    public Player(float x, float y, int width, int height, TiledMapTileLayer mapTileLayer, MapProperties propertiesMapa){
+    //Controller for android phone
+    Controller controller;
+
+    public Player(float x, float y, int width, int height, TiledMapTileLayer mapTileLayer, MapProperties propertiesMapa, Controller controller){
         this.width = width;
         this.height = height;
         this.mapTileLayer = mapTileLayer;
@@ -54,6 +60,8 @@ public class Player extends Actor {
         direction = WALLET_STANDING;
 
         bulletTexture = AssetManager.Bala;
+
+        this.controller = controller;
 
 
         collisionRect = new Rectangle();
@@ -80,7 +88,7 @@ public class Player extends Actor {
         float oldX = this.position.x;
         float oldY = this.position.y;
 
-            if (Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed(Input.Keys.A)){
+            if (Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed(Input.Keys.A) || controller.isLeftPressed()){
                 this.position.x -= Settings.PLAYER_VELOCITY * Gdx.graphics.getDeltaTime();
                 if(buscaColision(mapTileLayer, propertiesMapa.get("tilewidth", Integer.class), propertiesMapa.get("tileheight", Integer.class))) {
                     this.position.x = oldX;
@@ -89,7 +97,7 @@ public class Player extends Actor {
 
 
             }
-            if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) || Gdx.input.isKeyPressed(Input.Keys.D)){
+            if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) || Gdx.input.isKeyPressed(Input.Keys.D) || controller.isRightPressed()){
                 this.position.x += Settings.PLAYER_VELOCITY * Gdx.graphics.getDeltaTime();
                 if(buscaColision(mapTileLayer, propertiesMapa.get("tilewidth", Integer.class), propertiesMapa.get("tileheight", Integer.class))) {
                     this.position.x = oldX;
@@ -97,14 +105,14 @@ public class Player extends Actor {
                 }
             }
 
-            if (Gdx.input.isKeyPressed(Input.Keys.UP) || Gdx.input.isKeyPressed(Input.Keys.W)){
+            if (Gdx.input.isKeyPressed(Input.Keys.UP) || Gdx.input.isKeyPressed(Input.Keys.W) || controller.isUpPressed()){
                 this.position.y += Settings.PLAYER_VELOCITY * Gdx.graphics.getDeltaTime();
                 if(buscaColision(mapTileLayer, propertiesMapa.get("tilewidth", Integer.class), propertiesMapa.get("tileheight", Integer.class))) {
                     this.position.x = oldX;
                     this.position.y = oldY;
                 }
             }
-            if (Gdx.input.isKeyPressed(Input.Keys.DOWN) || Gdx.input.isKeyPressed(Input.Keys.S)){
+            if (Gdx.input.isKeyPressed(Input.Keys.DOWN) || Gdx.input.isKeyPressed(Input.Keys.S) || controller.isDownPressed()){
                 this.position.y -= Settings.PLAYER_VELOCITY * Gdx.graphics.getDeltaTime();
                 if(buscaColision(mapTileLayer, propertiesMapa.get("tilewidth", Integer.class), propertiesMapa.get("tileheight", Integer.class))) {
                     this.position.x = oldX;

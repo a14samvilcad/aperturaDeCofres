@@ -29,9 +29,14 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import org.graalvm.compiler.asm.sparc.SPARCAssembler;
+
+import javax.swing.JViewport;
+
 import m08.uf3.drops.Drops;
 import m08.uf3.drops.Objects.Player;
 import m08.uf3.drops.Objects.Zombies;
+import m08.uf3.drops.Utils.Controller;
 import m08.uf3.drops.Utils.Settings;
 import m08.uf3.drops.helper.AssetManager;
 
@@ -49,7 +54,7 @@ public class GameScreen implements Screen {
     BitmapFont font;
 
 
-    //Map
+    //Map variables
     private OrthographicCamera camera;
     private OrthogonalTiledMapRenderer tmr;
     private TiledMap map;
@@ -59,6 +64,9 @@ public class GameScreen implements Screen {
     private int tileWidth, tileHeight;
     private int mapWidthInTiles, mapHeightInTiles;
     private int mapWidthInPixels, mapHeightInPixels;
+
+    //Controller variables
+    Controller controller;
 
     private boolean menuVisible = false;
     private Texture menuSprite;
@@ -104,8 +112,10 @@ public class GameScreen implements Screen {
 
         batch = stage.getBatch();
 
+        controller = new Controller();
+
         // Creem la nau i la resta d'objectes
-        bucket = new Player(368, 20, 64, 64, mapLayer, propiedadesMap);
+        bucket = new Player(368, 20, 64, 64, mapLayer, propiedadesMap, controller);
 
         // Afegim els actors a l'stage
         stage.addActor(bucket);
@@ -113,6 +123,8 @@ public class GameScreen implements Screen {
         stage.addActor(score);
         // Donem nom a l'Actor
         bucket.setName("bucket");
+
+
 
     }
 
@@ -156,6 +168,7 @@ public class GameScreen implements Screen {
         stage.act(delta);
         vidas.setText("Vidas: "+ Settings.LIVES);
         score.setText("Puntuación: "+ Settings.SCORE);
+        controller.draw();
         if(TimeUtils.nanoTime() - lastZombieTime > 2000000000) spawnZombie();
 
         batch.begin();
@@ -204,7 +217,11 @@ public class GameScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
+        //super.resize(width, height);
+        //controller.resize(width, height);
     }
+
+
 
     @Override
     public void show() {
