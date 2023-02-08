@@ -6,4 +6,10 @@
    <property name="blocked" value=""/>
   </properties>
  </tile>
+ <tile id="2">
+  <properties>
+   <property name="blocked" value=""/>
+   <property name="openable" value=""/>
+  </properties>
+ </tile>
 </tileset>

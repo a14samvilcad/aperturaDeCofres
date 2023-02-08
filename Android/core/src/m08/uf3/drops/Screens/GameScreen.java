@@ -41,7 +41,6 @@ import m08.uf3.drops.Utils.Settings;
 import m08.uf3.drops.helper.AssetManager;
 
 public class GameScreen implements Screen {
-    Array<Rectangle> raindrops;
     long lastZombieTime;
     Stage stage;
     Batch batch;
@@ -55,7 +54,7 @@ public class GameScreen implements Screen {
 
 
     //Map variables
-    private OrthographicCamera camera;
+    public OrthographicCamera camera;
     private OrthogonalTiledMapRenderer tmr;
     private TiledMap map;
     private TiledMapTileLayer mapLayer;
@@ -71,6 +70,9 @@ public class GameScreen implements Screen {
     private boolean menuVisible = false;
     private Texture menuSprite;
     private Sprite botonSalirSprite;
+
+    //Cosas para abrir cofres
+    public Label mensajeCofre;
 
     public GameScreen(Batch prevBatch, Viewport prevViewport, Drops game) {
 
@@ -103,7 +105,6 @@ public class GameScreen implements Screen {
         crearLabels();
 
 
-
         // Creem el ShapeRenderer
         shapeRenderer = new ShapeRenderer();
 
@@ -121,6 +122,7 @@ public class GameScreen implements Screen {
         stage.addActor(bucket);
         stage.addActor(vidas);
         stage.addActor(score);
+        stage.addActor(mensajeCofre);
         // Donem nom a l'Actor
         bucket.setName("bucket");
 
@@ -134,14 +136,21 @@ public class GameScreen implements Screen {
         batch = new SpriteBatch();
         font = new BitmapFont();
 
-
+        mensajeCofre = new Label("PRESS [E] TO OPEN", new Label.LabelStyle(bitmapfont, Color.WHITE));
+        //System.out.println(mensajeCofre);
+        mensajeCofre.setPosition(camera.position.x - Gdx.graphics.getWidth() / 2 + 200, camera.position.y + Gdx.graphics.getHeight() / 2 - 2 - mensajeCofre.getHeight());
         vidas = new Label("Vidas: "+ Settings.LIVES, new Label.LabelStyle(bitmapfont, Color.WHITE));
         vidas.setPosition(camera.position.x - Gdx.graphics.getWidth() / 2 + 15, camera.position.y + Gdx.graphics.getHeight() / 2 - 2 -vidas.getHeight());
         score = new Label("Puntuación: "+ Settings.SCORE, new Label.LabelStyle(bitmapfont, Color.WHITE));
         score.setPosition(camera.position.x - Gdx.graphics.getWidth() / 2 + 80, camera.position.y + Gdx.graphics.getHeight() / 2 - 2 - vidas.getHeight());
 
-
     }
+
+    public void abrirCofre(){
+        stage.addActor(mensajeCofre);
+    }
+
+
 
     private void spawnZombie() {
         /*Rectangle zombieRect = new Rectangle();
@@ -168,6 +177,8 @@ public class GameScreen implements Screen {
         stage.act(delta);
         vidas.setText("Vidas: "+ Settings.LIVES);
         score.setText("Puntuación: "+ Settings.SCORE);
+        mensajeCofre.setText("PRESS [E] TO OPEN");
+        //mensajeCofre.setSize(1000, 1000);
         controller.draw();
         if(TimeUtils.nanoTime() - lastZombieTime > 2000000000) spawnZombie();
 
@@ -195,6 +206,7 @@ public class GameScreen implements Screen {
             game.setScreen(new MainMenuScreen(game));
         }
 
+
         try {
 
         }catch (Exception e){
@@ -219,7 +231,7 @@ public class GameScreen implements Screen {
             }
             vidas.setPosition(camera.position.x - Gdx.graphics.getWidth() / 2 + 15, camera.position.y + Gdx.graphics.getHeight() / 2 - 2 -vidas.getHeight());
             score.setPosition(camera.position.x - Gdx.graphics.getWidth() / 2 + 80, camera.position.y + Gdx.graphics.getHeight() / 2 - 2 - score.getHeight());
-
+            mensajeCofre.setPosition(camera.position.x - Gdx.graphics.getWidth() / 2 + 600, camera.position.y + Gdx.graphics.getHeight() / 2 - 200 - mensajeCofre.getHeight());
         }
 
 
@@ -227,6 +239,9 @@ public class GameScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
+        Gdx.gl.glClearColor(0,0,0,1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        stage.getViewport().update(width, height, true);
         //super.resize(width, height);
         //controller.resize(width, height);
     }

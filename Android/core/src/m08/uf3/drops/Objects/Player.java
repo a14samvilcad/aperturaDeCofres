@@ -1,9 +1,12 @@
 package m08.uf3.drops.Objects;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g3d.particles.ParticleControllerComponent;
 import com.badlogic.gdx.maps.MapProperties;
@@ -11,8 +14,11 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
+import m08.uf3.drops.Screens.GameScreen;
 import m08.uf3.drops.Utils.Controller;
 import m08.uf3.drops.helper.AssetManager;
 import  m08.uf3.drops.Utils.Settings;
@@ -90,11 +96,20 @@ public class Player extends Actor {
 
             if (Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed(Input.Keys.A) || controller.isLeftPressed()){
                 this.position.x -= Settings.PLAYER_VELOCITY * Gdx.graphics.getDeltaTime();
+                //COLISIONES CON PROPERTY BLOCKED
                 if(buscaColision(mapTileLayer, propertiesMapa.get("tilewidth", Integer.class), propertiesMapa.get("tileheight", Integer.class))) {
                     this.position.x = oldX;
                     this.position.y = oldY;
                 }
+                //COLISIONES CON PROPERTY OPENABLE
+                /*if (buscaOpenable(mapTileLayer, propertiesMapa.get("tilewidth", Integer.class), propertiesMapa.get("tileheight", Integer.class))){
+                    Label label;
+                    BitmapFont bitmapfont = new BitmapFont();
 
+                    label = new Label("PRESS [E] TO OPEN"+ Settings.LIVES, new Label.LabelStyle(bitmapfont, Color.WHITE));
+                    label.setPosition(GameScreen.camera.position.x - Gdx.graphics.getWidth() / 2 + 15, GameScreen.camera.position.y + Gdx.graphics.getHeight() / 2 - 2 - label.getHeight());
+
+                }*/
 
             }
             if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) || Gdx.input.isKeyPressed(Input.Keys.D) || controller.isRightPressed()){
@@ -103,6 +118,7 @@ public class Player extends Actor {
                     this.position.x = oldX;
                     this.position.y = oldY;
                 }
+
             }
 
             if (Gdx.input.isKeyPressed(Input.Keys.UP) || Gdx.input.isKeyPressed(Input.Keys.W) || controller.isUpPressed()){
@@ -158,9 +174,20 @@ public class Player extends Actor {
         int tileX = (int) ((this.position.x + (width / 2)) / tileWidth);
         int tileY = (int) ((this.position.y + (height / 2)) / tileHeight);
 
+        //Busca si a parte de colisionar la celda es abrible
+        if (mapLayer.getCell(tileX, tileY)
+                .getTile().getProperties().containsKey("openable")){
+            System.out.println("COFRE ABRIBLE");
+
+
+
+
+        }
+
         return mapLayer.getCell(tileX, tileY)
                 .getTile().getProperties().containsKey("blocked");
     }
+
 
     // Canviem la wallet de la spacecraft: Puja
     public void goRight() {
