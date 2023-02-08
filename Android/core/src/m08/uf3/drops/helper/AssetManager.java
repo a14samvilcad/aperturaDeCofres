@@ -37,7 +37,6 @@ public class AssetManager {
     public static Texture PlayerSoldierRunLeft;
     public static Texture PlayerSoldierStatic;
     public static Texture Bala;
-    public static Texture ZombieGhoulStatic;
     public static Texture botonSalir;
 
     //Textures de Controller for android
@@ -45,14 +44,17 @@ public class AssetManager {
 
 
 
+    //ZombieGhoul
+    public static Texture ZombieGhoulStatic;
+    public static TextureRegion ZombieGhoulStaticRegion;
+    public static TextureRegion ZombieGhoulDeathRegion;
 
     //Images
     public static TextureRegion playerLeft, playerRight, playerStatic;
-    public static TextureRegion ZombieGhoulStaticRegion;
 
 
     public static TextureRegion[] playerRightAnimation, playerLeftAnimation, playerStaticAnimation;
-    public static TextureRegion[] ZombieGhoulStaticAnimation;
+    public static TextureRegion[] ZombieGhoulStaticAnimation, ZombieGhoulDeathAnimation;
 
     // Font
     public static BitmapFont font;
@@ -96,6 +98,9 @@ public class AssetManager {
         PlayerSoldierRunLeft.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 
 
+        ZombieGhoulDeathRegion = new TextureRegion(ZombieGhoulStatic, 0, 134, 32, 32);
+        ZombieGhoulDeathRegion.flip(false, false);
+
         ZombieGhoulStaticRegion = new TextureRegion(ZombieGhoulStatic, 0, 3, 32, 32);
         ZombieGhoulStaticRegion.flip(false, false);
 
@@ -114,6 +119,11 @@ public class AssetManager {
         ZombieGhoulStaticAnimation = new TextureRegion[4];
         for (int i = 0; i < ZombieGhoulStaticAnimation.length; i++) {
             ZombieGhoulStaticAnimation[i] = new TextureRegion(ZombieGhoulStaticRegion, i * 32, 3, 32, 32);
+        }
+
+        ZombieGhoulDeathAnimation = new TextureRegion[6];
+        for (int i = 0; i < ZombieGhoulDeathAnimation.length; i++) {
+            ZombieGhoulDeathAnimation[i] = new TextureRegion(ZombieGhoulDeathRegion, i * 32, 3, 32, 32);
         }
 
         //Animación estatica
