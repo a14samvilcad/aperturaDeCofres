@@ -35,7 +35,7 @@ public class Zombies extends Actor {
     private Rectangle collisionRect;
 
     private Vector2 velocity = new Vector2();
-    private float speed = 100;
+    private float speed = 35;
 
     public Zombies (float x, float y, int width, int height, Player player){
         this.width = width;
