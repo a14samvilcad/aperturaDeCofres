@@ -96,8 +96,7 @@ public class MainMenuScreen implements Screen {
         settingsImage.setScale(0.25f);
         settingsImage.setPosition(1050,500);
 
-        Cursor cursor = Gdx.graphics.newCursor(AssetManager.cursorZombie, 0, 0);
-        Gdx.graphics.setCursor(cursor);
+
         /*
         title.setPosition((Settings.GAME_WIDTH - (title.getWidth() * Settings.TITLE_RESCALE_SIZE)) / 2, ((Settings.GAME_HEIGHT - title.getHeight()) / 2) + 50);
         message = new Label("Pulsa en la pantalla para empezar", new Label.LabelStyle(font, Color.WHITE));
@@ -128,6 +127,9 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void show() {
+
+        Cursor cursor = Gdx.graphics.newCursor(AssetManager.cursorZombie, 0, 0);
+        Gdx.graphics.setCursor(cursor);
 
         button.addListener(new InputListener() {
             @Override

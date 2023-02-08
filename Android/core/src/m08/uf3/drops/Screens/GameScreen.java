@@ -115,7 +115,7 @@ public class GameScreen implements Screen {
         controller = new Controller();
 
         // Creem la nau i la resta d'objectes
-        bucket = new Player(368, 20, 64, 64, mapLayer, propiedadesMap, controller);
+        bucket = new Player(368, 20, 64, 64, mapLayer, propiedadesMap, controller, camera);
 
         // Afegim els actors a l'stage
         stage.addActor(bucket);
@@ -133,7 +133,6 @@ public class GameScreen implements Screen {
 
         batch = new SpriteBatch();
         font = new BitmapFont();
-
 
         vidas = new Label("Vidas: "+ Settings.LIVES, new Label.LabelStyle(bitmapfont, Color.WHITE));
         vidas.setPosition(camera.position.x - Gdx.graphics.getWidth() / 2 + 15, camera.position.y + Gdx.graphics.getHeight() / 2 - 2 -vidas.getHeight());
@@ -236,6 +235,10 @@ public class GameScreen implements Screen {
     @Override
     public void show() {
         AssetManager.load();
+
+        Cursor cursor2 = Gdx.graphics.newCursor(AssetManager.crosshair, 0, 0);
+        Gdx.graphics.setCursor(cursor2);
+
         Gdx.input.setInputProcessor(new InputProcessor() {
             @Override
             public boolean keyDown(int keycode) {

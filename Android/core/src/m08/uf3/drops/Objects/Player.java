@@ -2,6 +2,7 @@ package m08.uf3.drops.Objects;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -10,6 +11,7 @@ import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 
@@ -38,6 +40,8 @@ public class Player extends Actor {
     private float frameTime = 0.1f;
     private float stateTime = 0;
 
+    private OrthographicCamera camera;
+
     private float timeSinceLastShot;
     private final float shotInterval = 0.5f; // intervalo de tiempo en segundos entre cada disparo
 
@@ -50,12 +54,13 @@ public class Player extends Actor {
     //Controller for android phone
     Controller controller;
 
-    public Player(float x, float y, int width, int height, TiledMapTileLayer mapTileLayer, MapProperties propertiesMapa, Controller controller){
+    public Player(float x, float y, int width, int height, TiledMapTileLayer mapTileLayer, MapProperties propertiesMapa, Controller controller, OrthographicCamera camera){
         this.width = width;
         this.height = height;
         this.mapTileLayer = mapTileLayer;
         this.propertiesMapa = propertiesMapa;
         position = new Vector2(x, y);
+        this.camera = camera;
 
         direction = WALLET_STANDING;
 
@@ -186,25 +191,22 @@ public class Player extends Actor {
     public void shoot() {
         if (timeSinceLastShot >= shotInterval) {
             timeSinceLastShot = 0;
-            float bulletXVelocity = Settings.BULLET_VELOCITY;
-            float bulletYVelocity = 0;
+            Vector3 cursorPos = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
+            camera.unproject(cursorPos);
+            Vector2 playerPos = new Vector2(position.x + width / 2, position.y + 28);
 
-            if (Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed(Input.Keys.A)) {
-                bulletXVelocity = -Settings.BULLET_VELOCITY;
-            }
-            if (Gdx.input.isKeyPressed(Input.Keys.UP) || Gdx.input.isKeyPressed(Input.Keys.W)) {
-                bulletXVelocity = 0;
-                bulletYVelocity = Settings.BULLET_VELOCITY;
-            }
-            if (Gdx.input.isKeyPressed(Input.Keys.DOWN) || Gdx.input.isKeyPressed(Input.Keys.S)) {
-                bulletXVelocity = 0;
-                bulletYVelocity = -Settings.BULLET_VELOCITY;
-            }
+            Vector2 direction = new Vector2(cursorPos.x, cursorPos.y).sub(playerPos).nor();
+            float angle = (float) Math.atan2(direction.y, direction.x);
 
-            Bullet bullet = new Bullet(position.x + width/2, position.y + 28, bulletXVelocity, bulletYVelocity, bulletTexture);
+            float bulletXVelocity = (float) (Settings.BULLET_VELOCITY * Math.cos(angle));
+            float bulletYVelocity = (float) (Settings.BULLET_VELOCITY * Math.sin(angle));
+
+            Bullet bullet = new Bullet(playerPos.x, playerPos.y, bulletXVelocity, bulletYVelocity, bulletTexture);
             getParent().addActor(bullet);
         }
     }
+
+
 
 
     private TextureRegion getPLayerDirection() {
