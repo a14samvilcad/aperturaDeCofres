@@ -25,6 +25,7 @@ public class AssetManager {
     public static TiledMap map;
     public static TmxMapLoader mapLoader;
     public static Pixmap cursorZombie;
+    public static Pixmap crosshair;
 
     public static Texture soldierImage;
     public static Sound dropSound;
@@ -81,6 +82,11 @@ public class AssetManager {
         Pixmap smallCursor = new Pixmap(cursorZombie.getWidth()/2, cursorZombie.getHeight()/2, cursorZombie.getFormat());
         smallCursor.drawPixmap(cursorZombie, 0, 0, cursorZombie.getWidth(), cursorZombie.getHeight(), 0, 0, smallCursor.getWidth(), smallCursor.getHeight());
         cursorZombie = smallCursor;
+
+        crosshair = new Pixmap(Gdx.files.internal("crosshair.png"));
+        Pixmap smallCrosshair = new Pixmap(crosshair.getWidth()/2, crosshair.getHeight()/2, crosshair.getFormat());
+        smallCrosshair.drawPixmap(crosshair, 0, 0, crosshair.getWidth(), crosshair.getHeight(), 0, 0, smallCrosshair.getWidth(), smallCrosshair.getHeight());
+        crosshair = smallCrosshair;
 
         ZombieGhoulStatic = new Texture(Gdx.files.internal("Zombies/GhoulZombie.png"));
         ZombieGhoulStatic.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
