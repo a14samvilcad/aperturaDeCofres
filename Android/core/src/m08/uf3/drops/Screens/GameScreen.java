@@ -169,7 +169,7 @@ public class GameScreen implements Screen {
         vidas.setText("Vidas: "+ Settings.LIVES);
         score.setText("Puntuación: "+ Settings.SCORE);
         controller.draw();
-        if(TimeUtils.nanoTime() - lastZombieTime > 2000000000) spawnZombie();
+        if(TimeUtils.nanoTime() - lastZombieTime > 8000000000L) spawnZombie();
 
         float cameraWidth = camera.viewportWidth;
         float cameraHeight = camera.viewportHeight;

@@ -23,6 +23,10 @@ public class Zombies extends Actor {
     private Player player;
 
     private TextureRegion[] animacionStatic;
+    private TextureRegion[] animacionDeath;
+
+    public float deathAnimationTimer = 0;
+    private boolean isDying = false;
 
     private int currentFrame = 0;
     private float frameTime = 0.1f;
@@ -48,6 +52,7 @@ public class Zombies extends Actor {
         collisionRect.height = this.height;
 
         animacionStatic = AssetManager.ZombieGhoulStaticAnimation;
+        animacionDeath = AssetManager.ZombieGhoulDeathAnimation;
 
         setBounds(position.x, position.y, width, height);
         setTouchable(Touchable.enabled);
@@ -82,7 +87,7 @@ public class Zombies extends Actor {
         collisionRect.width = this.width;
         collisionRect.height = this.height;
 
-        if(vida == 0){
+        if(isDying){
             dispose();
         }
 
@@ -104,11 +109,19 @@ public class Zombies extends Actor {
 
     private TextureRegion getZombieDirection() {
         TextureRegion zombieDir = null;
-        if (currentFrame < 0 || currentFrame >= animacionStatic.length) {
-            currentFrame = 0;
-        }
-        zombieDir = animacionStatic[currentFrame];
 
+
+        if(vida==0){
+            if (currentFrame < 0 || currentFrame >= 5) {
+                isDying=true;
+            }
+            zombieDir = animacionDeath[currentFrame];
+        } else {
+            if (currentFrame < 0 || currentFrame >= animacionStatic.length) {
+                currentFrame = 0;
+            }
+            zombieDir = animacionStatic[currentFrame];
+        }
         return zombieDir;
     }
 
