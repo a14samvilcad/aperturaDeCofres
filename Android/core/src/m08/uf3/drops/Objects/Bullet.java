@@ -35,9 +35,6 @@ public class Bullet extends Actor {
                 Rectangle bulletRect = new Rectangle(position.x, position.y, texture.getWidth(), texture.getHeight());
                 if (zombieRect.overlaps(bulletRect)) {
                     zombie.vida--;
-                    if (zombie.vida == 0) {
-                        zombie.dispose();
-                    }
                     remove();
                     break;
                 }

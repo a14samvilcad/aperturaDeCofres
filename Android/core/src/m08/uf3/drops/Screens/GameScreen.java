@@ -180,7 +180,7 @@ public class GameScreen implements Screen {
         mensajeCofre.setText("PRESS [E] TO OPEN");
         //mensajeCofre.setSize(1000, 1000);
         controller.draw();
-        if(TimeUtils.nanoTime() - lastZombieTime > 2000000000) spawnZombie();
+        if(TimeUtils.nanoTime() - lastZombieTime > 8000000000L) spawnZombie();
 
         float cameraWidth = camera.viewportWidth;
         float cameraHeight = camera.viewportHeight;

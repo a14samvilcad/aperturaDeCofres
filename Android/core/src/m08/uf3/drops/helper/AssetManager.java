@@ -67,8 +67,6 @@ public class AssetManager {
         imageLeft = new Texture("Flechitas/flatDark23.png");
         imageRight = new Texture("Flechitas/flatDark24.png");
 
-        ZombieGhoulStatic = new Texture(Gdx.files.internal("soldier.png"));
-
         menuImage = new Texture(Gdx.files.internal("menu.png"));
 
         botonSalir = new Texture(Gdx.files.internal("botonSalir.png"));
@@ -98,7 +96,7 @@ public class AssetManager {
         PlayerSoldierRunLeft.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 
 
-        ZombieGhoulDeathRegion = new TextureRegion(ZombieGhoulStatic, 0, 134, 32, 32);
+        ZombieGhoulDeathRegion = new TextureRegion(ZombieGhoulStatic, 0, 130, 32, 32);
         ZombieGhoulDeathRegion.flip(false, false);
 
         ZombieGhoulStaticRegion = new TextureRegion(ZombieGhoulStatic, 0, 3, 32, 32);
@@ -123,7 +121,7 @@ public class AssetManager {
 
         ZombieGhoulDeathAnimation = new TextureRegion[6];
         for (int i = 0; i < ZombieGhoulDeathAnimation.length; i++) {
-            ZombieGhoulDeathAnimation[i] = new TextureRegion(ZombieGhoulDeathRegion, i * 32, 3, 32, 32);
+            ZombieGhoulDeathAnimation[i] = new TextureRegion(ZombieGhoulDeathRegion, i * 32, 0, 32, 32);
         }
 
         //Animación estatica
