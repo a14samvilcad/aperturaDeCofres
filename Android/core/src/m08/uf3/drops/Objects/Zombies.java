@@ -18,7 +18,7 @@ public class Zombies extends Actor {
 
     private Vector2 position;
     private int width, height;
-    private int vida = 3;
+    int vida = 3;
 
     private Player player;
 
